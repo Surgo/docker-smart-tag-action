@@ -1,10 +1,10 @@
-import { getSmartTag } from './smartTag'
+import {getSmartTag} from './smartTag'
 import * as core from '@actions/core'
 
 async function run(): Promise<void> {
   try {
     const github_ref: string | undefined = process.env['GITHUB_REF']
-    if (typeof(github_ref) === 'undefined') {
+    if (typeof github_ref === 'undefined') {
       core.setFailed('Failed to retrieve environment variable "GITHUB_REF"')
       return
     }

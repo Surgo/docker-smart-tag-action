@@ -1,7 +1,7 @@
-export function getSmartTag(github_ref: string) {
-  let smart_tag = github_ref.replace(/refs\/(heads|tags)\//, '')
-  if (smart_tag === 'master') {
+export function getSmartTag(github_ref: string): string {
+  const smartTag = github_ref.replace(/refs\/(heads|tags)\//, '')
+  if (smartTag === 'master') {
     return 'latest'
   }
-  return smart_tag.replace('/', '-')
+  return smartTag.replace('/', '-')
 }

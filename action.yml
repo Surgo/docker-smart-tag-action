@@ -2,7 +2,8 @@ name: Generate smart tag for Docker images
 description: Generate tag for each branches or tags
 author: Kosei Kitahara
 outputs:
-  tag: Smart tag
+  tag:
+    description: Smart tag
 runs:
   using: 'node12'
   main: 'dist/index.js'
