@@ -1,11 +1,8 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
-inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+name: Generate smart tag for Docker images
+description: Generate tag for each branches or tags
+author: Kosei Kitahara
+outputs:
+  tag: Smart tag
 runs:
   using: 'node12'
   main: 'dist/index.js'

@@ -1,16 +1,15 @@
+import { getSmartTag } from './smartTag'
 import * as core from '@actions/core'
-import {wait} from './wait'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
-
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
-
-    core.setOutput('time', new Date().toTimeString())
+    const github_ref: string | undefined = process.env['GITHUB_REF']
+    if (typeof(github_ref) === 'undefined') {
+      core.setFailed('Failed to retrieve environment variable "GITHUB_REF"')
+      return
+    }
+    core.debug(`GITHUB_REF: ${github_ref}`)
+    core.setOutput('tag', getSmartTag(github_ref))
   } catch (error) {
     core.setFailed(error.message)
   }
