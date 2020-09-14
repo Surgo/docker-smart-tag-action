@@ -1,6 +1,9 @@
 name: Generate smart tag for Docker images
 description: Generate Docker tag from for each branches or tags
 author: Kosei Kitahara
+branding:
+  icon: 'tag'
+  color: 'black'
 inputs:
   docker_image:
     description: Docker image
