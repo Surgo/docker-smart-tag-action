@@ -56,3 +56,17 @@ Following inputs can be used as `step.with` keys
 Following outputs are available
 
 * `tag`: Smart tag
+
+## Development
+
+### Build
+```
+npm run build
+```
+
+### Test
+
+```
+npm run build
+npm t
+```
