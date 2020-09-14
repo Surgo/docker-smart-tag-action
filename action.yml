@@ -1,11 +1,19 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: Generate smart tag for Docker images
+description: Generate Docker tag from for each branches or tags
+author: Kosei Kitahara
 inputs:
-  milliseconds: # change this
+  docker_image:
+    description: Docker image
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  default_branch:
+    description: Default branch
+    required: false
+    default: main
+  tag_with_sha:
+    description: Tags the built image with the git short SHA prefixed with `sha-`.
+outputs:
+  tag:
+    description: Smart tag
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: node12
+  main: dist/index.js

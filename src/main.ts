@@ -1,16 +1,28 @@
+import {getSmartTag} from './smartTag'
 import * as core from '@actions/core'
-import {wait} from './wait'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+    const dockerImage: string = core.getInput('docker_image')
+    const defaultBranch: string = core.getInput('default_branch') || 'main'
+    const tagWithSha: boolean = core.getInput('tag_with_sha') === 'true'
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    const githubRef: string = process.env['GITHUB_REF'] || 'noop'
+    const githubSha: string = process.env['GITHUB_SHA'] || 'undefined'
+    const githubEventName: string =
+      process.env['GITHUB_EVENT_NAME'] || 'undefined'
 
-    core.setOutput('time', new Date().toTimeString())
+    core.setOutput(
+      'tag',
+      getSmartTag(
+        dockerImage,
+        githubRef,
+        githubSha,
+        githubEventName,
+        defaultBranch,
+        tagWithSha
+      )
+    )
   } catch (error) {
     core.setFailed(error.message)
   }
