@@ -25,11 +25,30 @@ function getSmartTagFromBranch(
   githubRef: string,
   defaultBranch: string
 ): string {
-  let version = githubRef.replace('refs/heads/', '').replace('/', '-')
+  const version = githubRef.replace('refs/heads/', '').replace('/', '-')
   if (version === defaultBranch) {
-    version = 'edge'
+    return `${dockerImage}:edge`
   }
   return `${dockerImage}:${version}`
+}
+
+function getTag(
+  dockerImage: string,
+  githubRef: string,
+  githubSha: string,
+  githubEventName: string,
+  defaultBranch: string,
+): string {
+  if (githubEventName === 'schedule') {
+    return `${dockerImage}:nightly`
+  } else if (githubRef.match(/refs\/tags\//)) {
+    return getSmartTagFromTag(dockerImage, githubRef)
+  } else if (githubRef.match(/refs\/pull\//)) {
+    return getSmartTagFromPullRequest(dockerImage, githubRef)
+  } else if (githubRef.match(/refs\/heads\//)) {
+    return getSmartTagFromBranch(dockerImage, githubRef, defaultBranch)
+  }
+  return `${dockerImage}:noop`
 }
 
 export function getSmartTag(
@@ -40,20 +59,9 @@ export function getSmartTag(
   defaultBranch: string,
   tagWithSha: boolean
 ): string {
-  let tags = ''
-  if (githubEventName === 'schedule') {
-    tags = `${dockerImage}:nightly`
-  } else if (githubRef.match(/refs\/tags\//)) {
-    tags = getSmartTagFromTag(dockerImage, githubRef)
-  } else if (githubRef.match(/refs\/pull\//)) {
-    tags = getSmartTagFromPullRequest(dockerImage, githubRef)
-  } else if (githubRef.match(/refs\/heads\//)) {
-    tags = getSmartTagFromBranch(dockerImage, githubRef, defaultBranch)
-  } else {
-    tags = `${dockerImage}:noop`
-  }
+  const tag = getTag(dockerImage, githubRef, githubSha, githubEventName, defaultBranch)
   if (tagWithSha) {
-    tags = `${tags},${dockerImage}:sha-${githubSha.substr(0, 8)}`
+    return `${tag},${dockerImage}:sha-${githubSha.substr(0, 8)}`
   }
-  return tags
+  return tag
 }
