@@ -13,7 +13,7 @@ Generate Docker tag from for each branches or tags
 ### Example (smart) tag
 
 * Pull request: `pr-<pull request number>`
-* Publish with tags: `v1.0.0` => `1.0.0`, `1.0`, `1`
+* Publish with tags: `v1.0.0` => `1.0.0`, `1.0`, `1` and `latest`
 * Branch: `topic/my_branch` => `topic-my_branch`
     * Default branch => `edge`
     * Scheduled build => `nightly`
