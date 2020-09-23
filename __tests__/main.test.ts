@@ -40,13 +40,21 @@ describe.each([
     'name/app:edge'
   ],
   [
+    // Publish tags (SemVer)
     'refs/tags/v1.0.0',
     'release',
     'main',
     false,
-    'name/app:1,name/app:1.0,name/app:1.0.0'
+    'name/app:latest,name/app:1,name/app:1.0,name/app:1.0.0'
   ],
-  ['refs/tags/v1', 'release', 'main', false, 'name/app:v1']
+  [
+    // Publish tags (Not SemVer)
+    'refs/tags/v1',
+    'release',
+    'main',
+    false,
+    'name/app:latest,name/app:v1'
+  ]
 ])(
   'Convert: %s, %s, %s, %s => %s',
   (
