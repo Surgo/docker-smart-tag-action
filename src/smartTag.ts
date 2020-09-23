@@ -4,12 +4,12 @@ function getSmartTagFromTag(dockerImage: string, githubRef: string): string {
   const version = githubRef.replace('refs/tags/', '').replace('/', '-')
   const semanticVersion = semver.clean(version)
   if (!semanticVersion) {
-    return `${dockerImage}:${version}`
+    return `${dockerImage}:latest,${dockerImage}:${version}`
   }
   const tags = `${dockerImage}:${semanticVersion}`
   const majorVerion = semver.major(semanticVersion)
   const minorVerion = semver.minor(semanticVersion)
-  return `${dockerImage}:${majorVerion},${dockerImage}:${majorVerion}.${minorVerion},${tags}`
+  return `${dockerImage}:latest,${dockerImage}:${majorVerion},${dockerImage}:${majorVerion}.${minorVerion},${tags}`
 }
 
 function getSmartTagFromPullRequest(
@@ -37,7 +37,7 @@ function getTag(
   githubRef: string,
   githubSha: string,
   githubEventName: string,
-  defaultBranch: string,
+  defaultBranch: string
 ): string {
   if (githubEventName === 'schedule') {
     return `${dockerImage}:nightly`
@@ -59,7 +59,13 @@ export function getSmartTag(
   defaultBranch: string,
   tagWithSha: boolean
 ): string {
-  const tag = getTag(dockerImage, githubRef, githubSha, githubEventName, defaultBranch)
+  const tag = getTag(
+    dockerImage,
+    githubRef,
+    githubSha,
+    githubEventName,
+    defaultBranch
+  )
   if (tagWithSha) {
     return `${tag},${dockerImage}:sha-${githubSha.substr(0, 8)}`
   }
