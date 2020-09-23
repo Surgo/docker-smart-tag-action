@@ -27,7 +27,7 @@ jobs:
   steps:
     - name: Get smart tag
       id: prepare
-      uses: docker-smart-tag-action@v1
+      uses: Surgo/docker-smart-tag-action@v1
       with:
         docker_image: name/app
     - name: Build and push
