@@ -1,7 +1,7 @@
 import * as semver from 'semver'
 
 function getSmartTagFromTag(dockerImage: string, githubRef: string): string {
-  const version = githubRef.replace('refs/tags/', '').replace('/', '-')
+  const version = githubRef.replace('refs/tags/', '').replace(/\//g, '-')
   const semanticVersion = semver.clean(version)
   if (!semanticVersion) {
     return `${dockerImage}:latest,${dockerImage}:${version}`
@@ -25,7 +25,7 @@ function getSmartTagFromBranch(
   githubRef: string,
   defaultBranch: string
 ): string {
-  const version = githubRef.replace('refs/heads/', '').replace('/', '-')
+  const version = githubRef.replace('refs/heads/', '').replace(/\//g, '-')
   if (version === defaultBranch) {
     return `${dockerImage}:edge`
   }
