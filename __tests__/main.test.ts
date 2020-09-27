@@ -9,27 +9,27 @@ describe.each([
   ['refs/heads/main', 'schedule', 'main', false, 'name/app:nightly'],
   [
     // Pull request
-    'refs/heads/topic/my_branch',
+    'refs/heads/topic/some/my_branch',
     'pull_request',
     'main',
     false,
-    'name/app:topic-my_branch'
+    'name/app:topic-some-my_branch'
   ],
   [
     // Push branch
-    'refs/heads/topic/my_branch',
+    'refs/heads/topic/some/my_branch',
     'push',
     'main',
     false,
-    'name/app:topic-my_branch'
+    'name/app:topic-some-my_branch'
   ],
   [
     // With sha
-    'refs/heads/topic/my_branch',
+    'refs/heads/topic/some/my_branch',
     'push',
     'main',
     true,
-    'name/app:topic-my_branch,name/app:sha-ffac537e'
+    'name/app:topic-some-my_branch,name/app:sha-ffac537e'
   ],
   [
     // Default branch
@@ -83,7 +83,7 @@ test('test runs', () => {
   process.env['INPUT_DOCKER_IMAGE'] = 'name/app'
   process.env['INPUT_DEFAULT_BRANCH'] = 'main'
   process.env['INPUT_TAG_WITH_SHA'] = 'false'
-  process.env['GITHUB_REF'] = 'refs/heads/topic/my_branch'
+  process.env['GITHUB_REF'] = 'refs/heads/topic/some/my_branch'
   process.env['GITHUB_SHA'] = githubSha
   process.env['GITHUB_EVENT_NAME'] = 'push'
   const ip = path.join(__dirname, '..', 'lib', 'main.js')
